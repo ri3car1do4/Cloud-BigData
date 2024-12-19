@@ -389,16 +389,18 @@ Donde:
 
 Este análisis ayuda a medir el aumento en la eficiencia del sistema al incrementar el número de nodos empleados. El tiempo de ejecución secuencial (en un solo nodo) es el siguiente:
 
-![image](https://github.com/user-attachments/assets/29c271cb-0702-44a5-a786-2e136ea2e6dd)
+![image](https://github.com/user-attachments/assets/2eef6457-9546-4062-9645-1d8e7485799a)
 
 Resultado con 2 Nodos: 
 
-![image](https://github.com/user-attachments/assets/29c271cb-0702-44a5-a786-2e136ea2e6dd)
+![image](https://github.com/user-attachments/assets/1ea8035f-ba43-4f8f-ac98-154afa3cd50a)
+
 Speed up = 
 
 Resultado con 4 nodos: 
 
-![image](https://github.com/user-attachments/assets/29c271cb-0702-44a5-a786-2e136ea2e6dd)
+![image](https://github.com/user-attachments/assets/183fd192-2c23-450c-8b7f-ee2d52eb71f5)
+
 
 Speed up = 
 
