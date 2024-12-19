@@ -64,11 +64,13 @@ Advertencia: en caso de no tener instalado PySpark, es crucial realizar su insta
 
 En primer lugar, para poder trabajar con una base de datos tan grande, vamos a crear un cluster de la siguiente manera: 
 ![image](https://github.com/user-attachments/assets/61e5687c-e04b-4223-a2cd-81ecd7c16c97)
+
 A continuación, hemos subido los documentos .py a nuestro Cloud Shell.
 
 Para la obtención de los outputs, vamos a enviar el siguiente trabajo al cluster:
 Para la obtención de outputs de llamadas no paramétricas, ejecutaremos el siguiente comando, sustituyendo “artistsSummary.py” por el documento en cuestión, y “outputArtistsSummary” por el nombre que le queramos adjudicar al documento de los resultados. Este sería el caso de: listeningRanges.py y artistsSummary.py.
 ![image](https://github.com/user-attachments/assets/f53220cf-0f2c-42a6-a82e-a05878fedbd2)
+
 Output: 
 
 Output (listeningRanges.py):
@@ -76,14 +78,17 @@ Output (listeningRanges.py):
 En cuanto a las trabajos con parámetros, diferenciamos los siguientes casos:
 top50.py (archivo de entrada, pais, año, archivo de salida)
 ![image](https://github.com/user-attachments/assets/9f547f8e-b5d5-4e4e-9355-adbcc8f95ae1)
+
 Output:
 
 listArtistSongs.py (archivo de entrada, artista, archivo de salida)
 ![image](https://github.com/user-attachments/assets/29c271cb-0702-44a5-a786-2e136ea2e6dd)
+
 Output:
 
 mostLeastHeard.py (archivo de entrada, año, archivo de salida)
 ![image](https://github.com/user-attachments/assets/2546787d-82a8-480f-a213-2b4ae712b762)
+
 Output:
 
 Por último, para  mostrar los outputs vamos a ejecutar lo siguiente, sustituyendo “outputTop50Argentina2017” por el output que queramos consultar:
