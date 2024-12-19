@@ -352,7 +352,12 @@ Para la obtención de outputs de llamadas no paramétricas, ejecutaremos el sigu
 
 Output: 
 
-Output (listeningRanges.py):
+![image](https://github.com/user-attachments/assets/8741d97b-7d4a-4c76-9422-9aedda4db44c)
+
+
+Output (listeningRanges.py): 
+
+![image](https://github.com/user-attachments/assets/1b3523b8-ad70-479d-8656-fdd6de341f99)
 
 En cuanto a las trabajos con parámetros, diferenciamos los siguientes casos:
 top50.py (archivo de entrada, pais, año, archivo de salida)
@@ -361,17 +366,24 @@ top50.py (archivo de entrada, pais, año, archivo de salida)
 
 Output:
 
+![image](https://github.com/user-attachments/assets/236c9412-37b1-4acb-84a6-2943c35e901c)
+
+
 listArtistSongs.py (archivo de entrada, artista, archivo de salida)
 
 ![image](https://github.com/user-attachments/assets/29c271cb-0702-44a5-a786-2e136ea2e6dd)
 
 Output:
 
+![image](https://github.com/user-attachments/assets/62ae9add-965a-461e-97e6-4ed094b0c092)
+
 mostLeastHeard.py (archivo de entrada, año, archivo de salida)
 
 ![image](https://github.com/user-attachments/assets/2546787d-82a8-480f-a213-2b4ae712b762)
 
 Output:
+
+![image](https://github.com/user-attachments/assets/313f4411-1f05-4fa7-a08b-386e569b4da2)
 
 Por último, para  mostrar los outputs vamos a ejecutar lo siguiente, sustituyendo “outputTop50Argentina2017” por el output que queramos consultar:
 
@@ -393,7 +405,7 @@ Este análisis ayuda a medir el aumento en la eficiencia del sistema al incremen
 
 Speed up = 1
 
-Resultado con 2 Nodos: 
+Resultado con 2 nodos: 
 
 ![image](https://github.com/user-attachments/assets/1ea8035f-ba43-4f8f-ac98-154afa3cd50a)
 
