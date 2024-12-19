@@ -391,18 +391,19 @@ Este análisis ayuda a medir el aumento en la eficiencia del sistema al incremen
 
 ![image](https://github.com/user-attachments/assets/2eef6457-9546-4062-9645-1d8e7485799a)
 
+Speed up = 1
+
 Resultado con 2 Nodos: 
 
 ![image](https://github.com/user-attachments/assets/1ea8035f-ba43-4f8f-ac98-154afa3cd50a)
 
-Speed up = 
+Speed up = 114.36 / 80.86 = 1.4142963146178580262181548355182
 
 Resultado con 4 nodos: 
 
 ![image](https://github.com/user-attachments/assets/183fd192-2c23-450c-8b7f-ee2d52eb71f5)
 
-
-Speed up = 
+Speed up = 114.36 / 70.40 = 1.6244318181818181818181818181818
 
 Se ha utilizado las siguientes instrucciones para conseguir los tiempos de ejecución:
 ```
