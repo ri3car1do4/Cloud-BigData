@@ -34,7 +34,7 @@ chart: Tipo de lista de clasificación (por ejemplo, "top200").
 trend: Tendencia de la canción en el ranking ("SAME_POSITION", "UP", "DOWN").
 streams: Número de reproducciones (streams) de la canción.
 
-En cuanto al tamaño de los datos, estos ocupan un total de 3.64GB, lo que refleja la magnitud del conjunto de datos y justifica aún más la elección de técnicas de Big Data processing para su procesamiento y análisis.El formato de dicha base de datos es.CVS (Command-Separated Values), lo que facilita su posterior procesamiento.
+En cuanto al tamaño de los datos, estos ocupan un total de 3.64GB, lo que refleja la magnitud del conjunto de datos y justifica aún más la elección de técnicas de Big Data processing para su procesamiento y análisis.El formato de dicha base de datos es.CVS (Command-Separated Values), lo que facilita su posterior procesamiento. La base de datos se puede encontrar en el bucket de nuestro proyecto (cloud-computing-i-436613/project) o más abajo en referencias.
 
 # Descripción de la aplicación, modelo(s) de programación, plataforma e infraestructura
 ## Descripción de la Aplicación
