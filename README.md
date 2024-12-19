@@ -362,11 +362,13 @@ top50.py (archivo de entrada, pais, año, archivo de salida)
 Output:
 
 listArtistSongs.py (archivo de entrada, artista, archivo de salida)
+
 ![image](https://github.com/user-attachments/assets/29c271cb-0702-44a5-a786-2e136ea2e6dd)
 
 Output:
 
 mostLeastHeard.py (archivo de entrada, año, archivo de salida)
+
 ![image](https://github.com/user-attachments/assets/2546787d-82a8-480f-a213-2b4ae712b762)
 
 Output:
@@ -386,14 +388,18 @@ Donde:
 - TiempoParalelo es el tiempo de ejecución al usar múltiples nodos.
 
 Este análisis ayuda a medir el aumento en la eficiencia del sistema al incrementar el número de nodos empleados. El tiempo de ejecución secuencial (en un solo nodo) es el siguiente:
+
 ![image](https://github.com/user-attachments/assets/29c271cb-0702-44a5-a786-2e136ea2e6dd)
 
 Resultado con 2 Nodos: 
+
 ![image](https://github.com/user-attachments/assets/29c271cb-0702-44a5-a786-2e136ea2e6dd)
 Speed up = 
 
 Resultado con 4 nodos: 
+
 ![image](https://github.com/user-attachments/assets/29c271cb-0702-44a5-a786-2e136ea2e6dd)
+
 Speed up = 
 
 Se ha utilizado las siguientes instrucciones para conseguir los tiempos de ejecución:
