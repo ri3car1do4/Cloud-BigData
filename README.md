@@ -393,7 +393,7 @@ gcloud dataproc jobs submit pyspark --cluster mycluster\
 
 Output:
 
-![image](https://github.com/user-attachments/assets/62ae9add-965a-461e-97e6-4ed094b0c092)
+![image](https://github.com/user-attachments/assets/609c387b-fcd8-4625-840f-91d6f20db14c)
 
 mostLeastHeard.py (archivo de entrada, año, archivo de salida)
 ```
@@ -405,7 +405,7 @@ gcloud dataproc jobs submit pyspark --cluster mycluster\
 
 Output:
 
-![image](https://github.com/user-attachments/assets/313f4411-1f05-4fa7-a08b-386e569b4da2)
+![image](https://github.com/user-attachments/assets/ae3a0398-9ab0-4b37-8d7b-7c40c405f618)
 
 Por último, para  mostrar los outputs vamos a ejecutar lo siguiente, sustituyendo “outputTop50Argentina2017” por el output que queramos consultar:
 ```
