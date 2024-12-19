@@ -57,6 +57,7 @@ Software: Apache Spark, instalado en el clúster, y Python (PySpark), lenguaje p
 Almacenamiento: Usamos un Bucket de Google Cloud para subir la base de datos(en .csv) y almacenar las salidas (los resultados del análisis).
 
 # Diseño del software
+## Artistas ordenados alfabéticamente
 ```python
 #!/usr/bin/python
 
@@ -94,6 +95,245 @@ artists.saveAsTextFile(output_file)
 
 print(f"Tiempo total de ejecución: {time() - start_time:.2f} segundos"}
 ```
+## Canciones agrupadas por rangos de duración
+```python
+#!/usr/bin/python
+
+from pyspark import SparkConf, SparkContext
+from time import time
+import sys
+
+start_time = time()
+
+# Define las categorías de rangos de streams
+def determine_range(average):
+    if 0 <= average <= 1000:
+        return "Rango 1: [0, 1000]"
+    elif 1000 < average <= 5000:
+        return "Rango 2: (1000, 5000]"
+    elif 5000 < average <= 10000:
+        return "Rango 3: (5000, 10000]"
+    elif 10000 < average <= 30000:
+        return "Rango 4: (10000, 30000]"
+    elif 30000 < average <= 50000:
+        return "Rango 5: (30000, 50000]"
+    elif 50000 < average <= 70000:
+        return "Rango 6: (50000, 70000]"
+    elif 70000 < average <= 90000:
+        return "Rango 7: (70000, 90000]"
+    elif 90000 < average <= 150000:
+        return "Rango 8: (90000, 150000]"
+    elif 150000 < average <= 200000:
+        return "Rango 9: (150000, 200000]"
+    elif average > 200000:
+        return "Rango 10: (200000, 1M)"
+    else:
+        return "Rango Inválido"
+
+# Configuración de Spark
+conf = SparkConf().setAppName('SongStreamsRange')
+sc = SparkContext.getOrCreate(conf)
+
+# Leer los argumentos de entrada
+input_file = sys.argv[1]
+output_file = sys.argv[2]
+
+# Leer el archivo de entrada
+lines = sc.textFile(input_file)
+
+# Procesar los datos
+streams = (
+    lines.filter(lambda line: not line.startswith('title'))  # Saltar el encabezado
+        .map(lambda line: line.split(','))  # Dividir en columnas
+        .filter(lambda fields: fields[8].isdigit())  # Asegurar que la columna de streams sea numérica
+        .map(lambda fields: (fields[0], (int(fields[8]), 1)))  # (nombre_canción, (streams, 1))
+        .reduceByKey(lambda a, b: (a[0] + b[0], a[1] + b[1]))  # Sumar streams y contar ocurrencias
+        .mapValues(lambda x: x[0] / x[1])  # Calcular promedio de streams
+        .map(lambda x: (x[0], determine_range(x[1])))  # Asignar rango a cada canción
+)
+
+# Guardar el resultado
+streams.saveAsTextFile(output_file)
+
+print(f"Tiempo total de ejecución: {time() - start_time:.2f} segundos"}
+```
+## Top 50 canciones por país y fecha
+```python
+#!/usr/bin/python
+
+from pyspark import SparkConf, SparkContext
+from time import time
+import sys
+import csv
+from io import StringIO
+
+start_time = time()
+
+# Configuración de Spark
+conf = SparkConf().setAppName('Top50Songs')
+sc = SparkContext.getOrCreate(conf)
+
+# Parámetros de entrada: archivo, país, año, salida
+input_file = sys.argv[1]
+country = sys.argv[2]
+year = sys.argv[3]
+output_file = sys.argv[4]
+
+# Función para procesar líneas CSV correctamente
+def parse_line(line):
+    try:
+        reader = csv.reader(StringIO(line))
+        cols = next(reader)
+        title = cols[0].strip()
+        rank = cols[1].strip()
+        date = cols[2].strip()
+        artist = cols[3].strip()
+        url = cols[4].strip()
+        region = cols[5].strip()
+        chart = cols[6].strip()
+        trend = cols[7].strip()
+        streams = int(cols[8].strip())
+        return (url, (streams, title, region, date.split('-')[0]))  # Clave: URL
+    except Exception:
+        return None
+
+# Cargar los datos como RDD
+lines = sc.textFile(input_file)
+
+# Filtrar líneas relevantes y mapear a pares (URL, (streams, title))
+tracks = (
+    lines.filter(lambda line: not line.startswith('title'))  # Omitir encabezado
+         .map(parse_line)  # Parsear líneas
+         .filter(lambda x: x is not None and x[1][3] == year and x[1][2] == country)  # Filtro por año y país
+)
+
+# Reducir por clave (URL) para mantener el máximo número de reproducciones
+max_streams_per_track = tracks.reduceByKey(lambda a, b: a if a[0] > b[0] else b)
+
+# Mapear para obtener (streams, title)
+top_tracks = max_streams_per_track.map(lambda x: (x[1][0], x[1][1]))
+
+# Ordenar por número de reproducciones y tomar las 50 primeras
+top50_tracks = top_tracks.sortBy(lambda x: -x[0]).take(50)
+
+# Formatear salida y guardar los resultados
+formatted_output = sc.parallelize(top50_tracks).map(lambda x: f"{x[1]},{x[0]}")
+
+formatted_output.saveAsTextFile(output_file)
+
+print(f"Tiempo total de ejecución: {time() - start_time:.2f} segundos")
+```
+## Canciones más populares por año.
+```python
+#!/usr/bin/python
+
+from pyspark import SparkConf, SparkContext
+from time import time
+import sys
+import csv
+from io import StringIO
+
+start_time = time()
+
+# Configuración de Spark
+conf = SparkConf().setAppName('SongAnalysisByYear')
+sc = SparkContext.getOrCreate(conf)
+
+# Parámetro de entrada: Año
+input_file = sys.argv[1]
+year = sys.argv[2]
+output_file = sys.argv[3]
+
+# Función para procesar líneas CSV correctamente
+def parse_line(line):
+    try:
+        reader = csv.reader(StringIO(line))
+        cols = next(reader)
+        if cols[2].startswith(year):
+            title = cols[0].strip()
+            url = cols[4].strip()
+            streams = int(cols[8].strip())
+            return title, url, streams
+    except Exception:
+        return None
+
+# Leer el archivo de texto
+lines = sc.textFile(input_file)
+
+# Filtrar el encabezado y procesar las líneas
+songs = lines.filter(lambda line: not line.startswith("title"))\
+            .map(parse_line)\
+            .filter(lambda x: x is not None)
+
+# Calcular la suma de streams por canción (nombre y URL)
+summed_songs = songs.map(lambda x: ((x[0], x[1]), x[2]))\
+                    .reduceByKey(lambda a, b: a + b)
+
+# Identificar la canción más escuchada y la menos escuchada
+most_listened = summed_songs.takeOrdered(1, key=lambda x: -x[1])
+least_listened = summed_songs.takeOrdered(1, key=lambda x: x[1])
+
+# Contar el total de canciones analizadas
+total_songs = summed_songs.count()
+
+# Guardar los resultados
+results = sc.parallelize([
+    f"Year: {year}",
+    f"Total de canciones analizadas: {total_songs}",
+    f"Canción más escuchada: {most_listened[0][0][0]} ({most_listened[0][0][1]}) con {most_listened[0][1]} reproducciones",
+    f"Canción menos escuchada: {least_listened[0][0][0]} ({least_listened[0][0][1]}) con {least_listened[0][1]} reproducciones"
+])
+
+results.saveAsTextFile(output_file)
+
+print(f"Tiempo total de ejecución: {time() - start_time:.2f} segundos")
+```
+## Canciones de un artista específico
+```python
+#!/usr/bin/python
+
+from pyspark import SparkConf, SparkContext
+from time import time
+import sys
+
+start_time = time()
+
+# Configuración de Spark
+conf = SparkConf().setAppName('ListArtistSongsRDD')
+sc = SparkContext.getOrCreate(conf)
+
+# Leer los parámetros
+input_file = sys.argv[1]      # Archivo de entrada
+artist = sys.argv[2].lower()  # Convertimos a minúsculas para comparación case-insensitive
+output_file = sys.argv[3]     # Carpeta de salida
+
+# Leer el archivo de texto
+lines = sc.textFile(input_file)
+
+# Filtrar las líneas que no son encabezado y contienen al artista
+songs = (
+    lines.filter(lambda line: not line.startswith('title'))
+         .map(lambda line: line.split(','))
+         .filter(lambda fields: artist in fields[3].lower())  # Buscar al artista en la columna de artistas
+         .map(lambda fields: (
+             fields[0], 
+             next((field for field in fields if field.startswith('http')), '')  # Extraer la primera URL válida
+         ))
+         .distinct()                                          # Eliminar duplicados
+)
+
+# Contar las canciones filtradas
+count = songs.count()
+
+# Añadir el contador al resultado
+songs_with_count = sc.parallelize([f'Total songs found: {count}']).union(songs.map(lambda x: f'{x[0]} | {x[1]}'))
+
+# Guardar el resultado
+songs_with_count.saveAsTextFile(output_file)
+
+print(f"Tiempo total de ejecución: {time() - start_time:.2f} segundos")
+```
+## 
 # Uso
 En este apartado vamos a explicar el procedimiento que hemos seguido para obtener los resultados a partir de los códigos y la base de datos, y realizar las pruebas de las mismas.
 
