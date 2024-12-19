@@ -1,9 +1,12 @@
 #!/usr/bin/python
 
 from pyspark import SparkConf, SparkContext
+from time import time
 import sys
 import csv
 from io import StringIO
+
+start_time = time()
 
 # Configuración de Spark
 conf = SparkConf().setAppName('Top50Songs')
@@ -57,6 +60,4 @@ formatted_output = sc.parallelize(top50_tracks).map(lambda x: f"{x[1]},{x[0]}")
 
 formatted_output.saveAsTextFile(output_file)
 
-# Finalizar el contexto de Spark
-sc.stop()
-
+print(f"Tiempo total de ejecución: {time() - start_time:.2f} segundos")

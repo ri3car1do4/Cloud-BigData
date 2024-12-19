@@ -1,15 +1,18 @@
 #!/usr/bin/python
 
 from pyspark import SparkConf, SparkContext
+from time import time
 import sys
+
+start_time = time()
 
 # Configuración de Spark
 conf = SparkConf().setAppName('ListArtistSongsRDD')
 sc = SparkContext.getOrCreate(conf)
 
 # Leer los parámetros
-artist = sys.argv[1].lower()  # Convertimos a minúsculas para comparación case-insensitive
-input_file = sys.argv[2]      # Archivo de entrada
+input_file = sys.argv[1]      # Archivo de entrada
+artist = sys.argv[2].lower()  # Convertimos a minúsculas para comparación case-insensitive
 output_file = sys.argv[3]     # Carpeta de salida
 
 # Leer el archivo de texto
@@ -36,6 +39,4 @@ songs_with_count = sc.parallelize([f'Total songs found: {count}']).union(songs.m
 # Guardar el resultado
 songs_with_count.saveAsTextFile(output_file)
 
-# Parar el contexto de Spark
-sc.stop()
-
+print(f"Tiempo total de ejecución: {time() - start_time:.2f} segundos")

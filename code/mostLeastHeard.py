@@ -1,17 +1,20 @@
 #!/usr/bin/python
 
 from pyspark import SparkConf, SparkContext
+from time import time
 import sys
 import csv
 from io import StringIO
+
+start_time = time()
 
 # Configuración de Spark
 conf = SparkConf().setAppName('SongAnalysisByYear')
 sc = SparkContext.getOrCreate(conf)
 
 # Parámetro de entrada: Año
-year = sys.argv[1]
-input_file = sys.argv[2]
+input_file = sys.argv[1]
+year = sys.argv[2]
 output_file = sys.argv[3]
 
 # Función para procesar líneas CSV correctamente
@@ -56,6 +59,4 @@ results = sc.parallelize([
 
 results.saveAsTextFile(output_file)
 
-# Finalizar el contexto de Spark
-sc.stop()
-
+print(f"Tiempo total de ejecución: {time() - start_time:.2f} segundos")

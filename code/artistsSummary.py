@@ -6,6 +6,8 @@ import re
 import csv
 from io import StringIO
 
+start_time = time()
+
 # Configuración del contexto de Spark
 conf = SparkConf().setAppName('ListArtistsRDD')
 sc = SparkContext.getOrCreate(conf)
@@ -30,7 +32,4 @@ artists = (
 # Guardar los resultados
 artists.saveAsTextFile(output_file)
 
-# Finalizar el contexto de Spark
-sc.stop()
-
-
+print(f"Tiempo total de ejecución: {time() - start_time:.2f} segundos"}
