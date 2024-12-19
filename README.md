@@ -343,15 +343,23 @@ En este apartado vamos a explicar el procedimiento que hemos seguido para obtene
 Advertencia: en caso de no tener instalado PySpark, es crucial realizar su instalación en el Cloud Shell antes de continuar con los siguientes pasos.
 
 En primer lugar, para poder trabajar con una base de datos tan grande, vamos a crear un cluster de la siguiente manera: 
-
-![image](https://github.com/user-attachments/assets/61e5687c-e04b-4223-a2cd-81ecd7c16c97)
+```
+gcloud dataproc clusters create mycluster --region=europe-southwest1 \
+--master-machine-type=e2-standard-4 --master-boot-disk-size=50 \
+--worker-machine-type=e2-standard-4 --worker-boot-disk-size=50 \
+--enable-component-gateway
+```
 
 A continuación, hemos subido los documentos .py a nuestro Cloud Shell.
 
 Para la obtención de los outputs, vamos a enviar el siguiente trabajo al cluster:
 Para la obtención de outputs de llamadas no paramétricas, ejecutaremos el siguiente comando, sustituyendo “artistsSummary.py” por el documento en cuestión, y “outputArtistsSummary” por el nombre que le queramos adjudicar al documento de los resultados. Este sería el caso de: listeningRanges.py y artistsSummary.py.
-
-![image](https://github.com/user-attachments/assets/f53220cf-0f2c-42a6-a82e-a05878fedbd2)
+```
+BUCKET=gs://cloud-computing-i-436613/project
+gcloud dataproc jobs submit pyspark --cluster mycluster \
+--region=europe-southwest1 artistsSummary.py \ 
+-- $BUCKET/charts.csv $BUCKET/outputArtistsSummary
+```
 
 Output: 
 
@@ -364,8 +372,11 @@ Output (listeningRanges.py):
 
 En cuanto a las trabajos con parámetros, diferenciamos los siguientes casos:
 top50.py (archivo de entrada, pais, año, archivo de salida)
-
-![image](https://github.com/user-attachments/assets/9f547f8e-b5d5-4e4e-9355-adbcc8f95ae1)
+```
+BUCKET=gs://cloud-computing-i-436613/project
+gcloud dataproc jobs submit pyspark --cluster mycluster\
+--region=europe-southwest1 top50.py -- $BUCKET/charts.csv Argentina 2018 $BUCKET/outputTop50Argentina2018
+```
 
 Output:
 
@@ -373,24 +384,34 @@ Output:
 
 
 listArtistSongs.py (archivo de entrada, artista, archivo de salida)
-
-![image](https://github.com/user-attachments/assets/29c271cb-0702-44a5-a786-2e136ea2e6dd)
+```
+BUCKET=gs://cloud-computing-i-436613/project
+gcloud dataproc jobs submit pyspark --cluster mycluster\
+--region=europe-southwest1 listArtistSongs.py \
+-- $BUCKET/charts.csv Shakira $BUCKET/outputListArtistSongsShakira
+```
 
 Output:
 
 ![image](https://github.com/user-attachments/assets/62ae9add-965a-461e-97e6-4ed094b0c092)
 
 mostLeastHeard.py (archivo de entrada, año, archivo de salida)
-
-![image](https://github.com/user-attachments/assets/2546787d-82a8-480f-a213-2b4ae712b762)
+```
+BUCKET=gs://cloud-computing-i-436613/project
+gcloud dataproc jobs submit pyspark --cluster mycluster\
+--region=europe-southwest1 mostLeastHeard.py \
+-- $BUCKET/charts.csv 2019 $BUCKET/outputMostLeastHeard2019
+```
 
 Output:
 
 ![image](https://github.com/user-attachments/assets/313f4411-1f05-4fa7-a08b-386e569b4da2)
 
 Por último, para  mostrar los outputs vamos a ejecutar lo siguiente, sustituyendo “outputTop50Argentina2017” por el output que queramos consultar:
-
-![image](https://github.com/user-attachments/assets/0475a697-9506-4ca6-aac7-4fa186f979a0)
+```
+gcloud storage ls $BUCKET/outputTop50Argentina2017
+gcloud storage cat $BUCKET/outputTop50Argentina2017/* | more
+```
 
 # Evaluación del rendimiento
 Para evaluar el rendimiento del sistema, se llevaron a cabo pruebas con configuraciones de 2 y 4 nodos. En cada caso, se registraron los tiempos de ejecución correspondientes del código de mostLeastHeard.py.
