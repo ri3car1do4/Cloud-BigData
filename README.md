@@ -406,6 +406,13 @@ print(f"Tiempo de ejecución: {time() - start_time:.2f} segundos")
 ```
 
 # Características avanzadas
+
+En el punto anterior podemos apreciar una de las funciones avanzadas que hemos utilizado en este proyecto que no habías utilizado en previos proyectos. 
+
+En este proyecto nos hemos encontrado con varios desafíos. Es por esto, que además de emplear estas funciones para realizar análisis de códigos, también las hemos tenido que utilizar para hacer frente a las dificultades con las que nos topábamos. Entre estas, se encuentra la correcta lectura del fichero en todos los casos.
+
+Durante el curso nos acostumbramos a separar documentos en formato .csv con el .split(‘,’), pero en este proyecto no nos era suficiente. Debido a ciertos inputs donde si ,por ejemplo, hay varios artistas, el apartado de artista se presenta de la manera “… ,“artista1, artista2, artista3”, …” en vez de “…,artista,...”; esto no nos permitía procesar los datos de forma correcta, lo que propiciaba outputs erróneos. Gracias a este problema comenzamos a utilizar la instrucción “reader = csv.reader(StringIO(line)”, la cual respeta el formato .csv, facilitando de esta manera el posterior análisis de los datos.
+
 # Conclusiones
 En este proyecto, hemos logrado abordar con éxito varios desafíos asociados al procesamiento y análisis de grandes volúmenes de datos, en este caso, provenientes de Spotify. A través de técnicas de computación distribuida y almacenamiento en la nube, hemos diseñado e implementado una solución escalable y eficiente capaz de gestionar datos masivos y realizar consultas complejas en tiempo real.
 
