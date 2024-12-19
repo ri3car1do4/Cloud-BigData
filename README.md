@@ -376,6 +376,16 @@ Por último, para  mostrar los outputs vamos a ejecutar lo siguiente, sustituyen
 ![image](https://github.com/user-attachments/assets/0475a697-9506-4ca6-aac7-4fa186f979a0)
 
 # Evaluación del rendimiento
+Para evaluar el rendimiento del sistema, se llevaron a cabo pruebas con configuraciones de 2 y 4 nodos. En cada caso, se registraron los tiempos de ejecución correspondientes, los cuales se pueden observar en las capturas proporcionadas.
+
+Con estos datos, se calculó el Speed Up utilizando la fórmula:
+Speed Up = TiempoSecuencial / TiempoParalelo
+
+Donde:
+- TiempoSecuencial corresponde al tiempo de ejecución en un solo nodo (modo secuencial).
+- TiempoParalelo es el tiempo de ejecución al usar múltiples nodos.
+Este análisis ayuda a medir el aumento en la eficiencia del sistema al incrementar el número de nodos empleados. El tiempo de ejecución secuencial (en un solo nodo) es el siguiente:
+
 # Características avanzadas
 # Conclusiones
 En este proyecto, hemos logrado abordar con éxito varios desafíos asociados al procesamiento y análisis de grandes volúmenes de datos, en este caso, provenientes de Spotify. A través de técnicas de computación distribuida y almacenamiento en la nube, hemos diseñado e implementado una solución escalable y eficiente capaz de gestionar datos masivos y realizar consultas complejas en tiempo real.
