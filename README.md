@@ -57,18 +57,57 @@ Software: Apache Spark, instalado en el clúster, y Python (PySpark), lenguaje p
 Almacenamiento: Usamos un Bucket de Google Cloud para subir la base de datos(en .csv) y almacenar las salidas (los resultados del análisis).
 
 # Diseño del software
+```python
+#!/usr/bin/python
+
+from pyspark import SparkConf, SparkContext
+import sys
+import re
+import csv
+from io import StringIO
+
+start_time = time()
+
+# Configuración del contexto de Spark
+conf = SparkConf().setAppName('ListArtistsRDD')
+sc = SparkContext.getOrCreate(conf)
+
+# Archivo de entrada
+input_file = sys.argv[1]
+output_file = sys.argv[2]
+
+# Leer el archivo
+lines = sc.textFile(input_file)
+
+# Procesar las líneas para extraer los artistas
+artists = (
+    lines.filter(lambda line: not line.startswith('title'))  # Ignorar encabezado
+         .map(lambda line: list(csv.reader(StringIO(line)))[0][3])  # Usar csv.reader para extraer la columna de artistas
+         .flatMap(lambda artist: artist.split(','))  # Dividir artistas separados por comas
+         .map(lambda artist: artist.strip())  # Eliminar espacios en blanco
+         .distinct()  # Obtener solo artistas únicos
+         .sortBy(lambda artist: artist.lower()) #Ordenar alfabéticamente sin importar mayúsculas
+)
+
+# Guardar los resultados
+artists.saveAsTextFile(output_file)
+
+print(f"Tiempo total de ejecución: {time() - start_time:.2f} segundos"}
+```
 # Uso
 En este apartado vamos a explicar el procedimiento que hemos seguido para obtener los resultados a partir de los códigos y la base de datos, y realizar las pruebas de las mismas.
 
 Advertencia: en caso de no tener instalado PySpark, es crucial realizar su instalación en el Cloud Shell antes de continuar con los siguientes pasos.
 
 En primer lugar, para poder trabajar con una base de datos tan grande, vamos a crear un cluster de la siguiente manera: 
+
 ![image](https://github.com/user-attachments/assets/61e5687c-e04b-4223-a2cd-81ecd7c16c97)
 
 A continuación, hemos subido los documentos .py a nuestro Cloud Shell.
 
 Para la obtención de los outputs, vamos a enviar el siguiente trabajo al cluster:
 Para la obtención de outputs de llamadas no paramétricas, ejecutaremos el siguiente comando, sustituyendo “artistsSummary.py” por el documento en cuestión, y “outputArtistsSummary” por el nombre que le queramos adjudicar al documento de los resultados. Este sería el caso de: listeningRanges.py y artistsSummary.py.
+
 ![image](https://github.com/user-attachments/assets/f53220cf-0f2c-42a6-a82e-a05878fedbd2)
 
 Output: 
@@ -77,6 +116,7 @@ Output (listeningRanges.py):
 
 En cuanto a las trabajos con parámetros, diferenciamos los siguientes casos:
 top50.py (archivo de entrada, pais, año, archivo de salida)
+
 ![image](https://github.com/user-attachments/assets/9f547f8e-b5d5-4e4e-9355-adbcc8f95ae1)
 
 Output:
@@ -92,9 +132,8 @@ mostLeastHeard.py (archivo de entrada, año, archivo de salida)
 Output:
 
 Por último, para  mostrar los outputs vamos a ejecutar lo siguiente, sustituyendo “outputTop50Argentina2017” por el output que queramos consultar:
+
 ![image](https://github.com/user-attachments/assets/0475a697-9506-4ca6-aac7-4fa186f979a0)
-
-
 
 # Evaluación del rendimiento
 # Características avanzadas
@@ -110,9 +149,9 @@ Como trabajo futuro, se sugiere la incorporación de análisis de redes sociales
 En conclusión, este proyecto no solo ha proporcionado soluciones técnicas eficientes, sino que también ha ofrecido una base sólida para explorar nuevas oportunidades en el análisis de datos musicales a gran escala.
 
 # Referencias
-Kaggle (Para la obtención del dataset): [https://www.kaggle.com/datasets/sunnykakar/spotify-audio-features?resource=download&select=charts.csv]
+Kaggle (Para la obtención del dataset): [https://www.kaggle.com/datasets/sunnykakar/spotify-audio-features?resource=download&select=charts.csv](https://www.kaggle.com/datasets/sunnykakar/spotify-audio-features?resource=download&select=charts.csv)
 
-Apuntes del Google Classroom de la Asignatura (Para la implementación del código): [https://classroom.google.com/u/5/w/Njk3NzgxMTk4MjM4/t/all]
+Apuntes del Google Classroom de la Asignatura (Para la implementación del código): [https://classroom.google.com/u/5/w/Njk3NzgxMTk4MjM4/t/all](https://classroom.google.com/u/5/w/Njk3NzgxMTk4MjM4/t/all)
 
-Documentación de Spark (Para la implementación del código): [https://spark.apache.org/docs/latest/sql-data-sources.html]
+Documentación de Spark (Para la implementación del código): [https://spark.apache.org/docs/latest/sql-data-sources.html](https://spark.apache.org/docs/latest/sql-data-sources.html)
 
