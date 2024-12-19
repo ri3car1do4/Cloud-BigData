@@ -2,7 +2,7 @@
 
 ![image](https://github.com/user-attachments/assets/1884711d-89e9-4a63-ad09-e87699dc4acb)
 
-# Descripción del problema.
+# Descripción del problema
 En el marco del proyecto para la asignatura de Cloud Computing y Big Data, hemos seleccionado una base de datos que contiene información sobre canciones de Spotify recopiladas entre 2017 y 2021. 
 El objetivo principal del proyecto es diseñar, implementar y evaluar una solución que aborde un problema típico de Big Data en la nube. Específicamente, nos enfocamos en el procesamiento y análisis eficiente de grandes volúmenes de datos relacionados con música, aprovechando técnicas de computación distribuida, almacenamiento escalable y consultas optimizadas. La solución propuesta debe ser capaz de gestionar datos a gran escala, realizar cálculos complejos y responder rápidamente a consultas específicas.
 En el contexto de esta base de datos, buscamos abordar las siguientes necesidades analíticas relacionadas con las canciones de Spotify:
@@ -15,7 +15,7 @@ Clasificación de canciones por escuchas: Categorizar las canciones en rangos de
 
 Este proyecto aborda desafíos reales relacionados con el análisis de grandes volúmenes de datos musicales, como el manejo eficiente de información estructurada, el filtrado rápido de datos y la generación de insights relevantes. Los resultados obtenidos tienen aplicaciones en la industria musical, como análisis de tendencias, personalización de experiencias de usuario y estrategias de marketing basadas en datos.
 
-# Necesidad de Big Data y Cloud.
+# Necesidad de Big Data y Cloud
 El proyecto maneja grandes volúmenes de datos musicales (3,64 Gb) que superan la capacidad de sistemas tradicionales. Big Data es esencial para procesar estas consultas de manera eficiente, gracias a su capacidad de manejar altos volúmenes, velocidad y variedad de datos.
 La nube complementa esto ofreciendo escalabilidad, elasticidad y costo-eficiencia. Permite ajustar recursos según las necesidades del proyecto, evitando inversiones iniciales altas y facilitando el acceso global y la colaboración en tiempo real. 
 En conjunto, Big Data y la nube garantizan un procesamiento óptimo, almacenamiento flexible y análisis avanzado para resolver los desafíos del proyecto.
@@ -36,7 +36,7 @@ streams: Número de reproducciones (streams) de la canción.
 
 En cuanto al tamaño de los datos, estos ocupan un total de 3.64GB, lo que refleja la magnitud del conjunto de datos y justifica aún más la elección de técnicas de Big Data processing para su procesamiento y análisis.El formato de dicha base de datos es.CVS (Command-Separated Values), lo que facilita su posterior procesamiento.
 
-# Descripción de la aplicación, modelo(s) de programación, plataforma e infraestructura.
+# Descripción de la aplicación, modelo(s) de programación, plataforma e infraestructura
 ## Descripción de la Aplicación
 La aplicación desarrollada es una solución de análisis y consulta de datos musicales basada en la nube. Está diseñada para procesar información masiva proveniente de una base de datos de Spotify (2017-2021), permitiendo obtener insights clave sobre canciones, artistas y tendencias. La funcionalidad de la aplicación incluye:
 - Consultas específicas:
@@ -226,7 +226,7 @@ formatted_output.saveAsTextFile(output_file)
 
 print(f"Tiempo total de ejecución: {time() - start_time:.2f} segundos")
 ```
-## Canciones más populares por año.
+## Canciones más populares por año
 ```python
 #!/usr/bin/python
 
