@@ -376,7 +376,7 @@ Por último, para  mostrar los outputs vamos a ejecutar lo siguiente, sustituyen
 ![image](https://github.com/user-attachments/assets/0475a697-9506-4ca6-aac7-4fa186f979a0)
 
 # Evaluación del rendimiento
-Para evaluar el rendimiento del sistema, se llevaron a cabo pruebas con configuraciones de 2 y 4 nodos. En cada caso, se registraron los tiempos de ejecución correspondientes, los cuales se pueden observar en las capturas proporcionadas.
+Para evaluar el rendimiento del sistema, se llevaron a cabo pruebas con configuraciones de 2 y 4 nodos. En cada caso, se registraron los tiempos de ejecución correspondientes del código de mostLeastHeard.py.
 
 Con estos datos, se calculó el Speed Up utilizando la fórmula:
 Speed Up = TiempoSecuencial / TiempoParalelo
@@ -384,7 +384,26 @@ Speed Up = TiempoSecuencial / TiempoParalelo
 Donde:
 - TiempoSecuencial corresponde al tiempo de ejecución en un solo nodo (modo secuencial).
 - TiempoParalelo es el tiempo de ejecución al usar múltiples nodos.
+
 Este análisis ayuda a medir el aumento en la eficiencia del sistema al incrementar el número de nodos empleados. El tiempo de ejecución secuencial (en un solo nodo) es el siguiente:
+![image](https://github.com/user-attachments/assets/29c271cb-0702-44a5-a786-2e136ea2e6dd)
+
+Resultado con 2 Nodos: 
+![image](https://github.com/user-attachments/assets/29c271cb-0702-44a5-a786-2e136ea2e6dd)
+Speed up = 
+
+Resultado con 4 nodos: 
+![image](https://github.com/user-attachments/assets/29c271cb-0702-44a5-a786-2e136ea2e6dd)
+Speed up = 
+
+Se ha utilizado las siguientes instrucciones para conseguir los tiempos de ejecución:
+```
+from time import time
+...
+start_time = time()
+...
+print(f"Tiempo de ejecución: {time() - start_time:.2f} segundos")
+```
 
 # Características avanzadas
 # Conclusiones
